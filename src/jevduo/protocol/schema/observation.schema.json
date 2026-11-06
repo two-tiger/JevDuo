@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "tandem:protocol/observation.schema.json",
-  "title": "Tandem Observation v0.2",
+  "$id": "jevduo:protocol/observation.schema.json",
+  "title": "JevDuo Observation v0.2",
   "description": "环境 → harness 的观察消息。二进制一律文件引用，禁止内嵌（MCP-ready 约束）。",
   "type": "object",
   "additionalProperties": false,
@@ -79,7 +79,7 @@
       ]
     },
     "last_receipt": {
-      "oneOf": [{ "type": "null" }, { "$ref": "tandem:protocol/receipt.schema.json" }]
+      "oneOf": [{ "type": "null" }, { "$ref": "jevduo:protocol/receipt.schema.json" }]
     },
     "protocol_version": { "const": "0.2" }
   }

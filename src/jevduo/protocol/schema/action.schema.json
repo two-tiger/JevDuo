@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "tandem:protocol/action.schema.json",
-  "title": "Tandem Action v0.1",
+  "$id": "jevduo:protocol/action.schema.json",
+  "title": "JevDuo Action v0.1",
   "description": "harness → 环境的动作消息。计步纪律：gui/cli/wait 各占 1 步，共用 max_steps 预算。",
   "type": "object",
   "oneOf": [
