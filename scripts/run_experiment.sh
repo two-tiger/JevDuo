@@ -61,20 +61,7 @@ if [[ ! "$EXECUTION_MODE" =~ ^(step|stage|goal)$ || "$STAGE_MAX_ACTIONS" -lt 1 ]
     exit 2
 fi
 
-# JEVDUO_* is the current name; TANDEM_* is the pre-rename name, still honored with a warning.
-env_or_legacy() {
-    local name="$1" legacy="$2" default="$3"
-    if [[ -n "${!name:-}" ]]; then
-        printf '%s' "${!name}"
-    elif [[ -n "${!legacy:-}" ]]; then
-        echo "warning: $legacy is deprecated; use $name instead" >&2
-        printf '%s' "${!legacy}"
-    else
-        printf '%s' "$default"
-    fi
-}
-
-EXPERIMENT_ROOT="$(env_or_legacy JEVDUO_EXPERIMENT_ROOT TANDEM_EXPERIMENT_ROOT "$REPO/rjob_logs")"
+EXPERIMENT_ROOT="${JEVDUO_EXPERIMENT_ROOT:-$REPO/rjob_logs}"
 EXPERIMENT_DIR="$EXPERIMENT_ROOT/$EXPERIMENT"
 DRIVER_DIR="$EXPERIMENT_DIR/drivers"
 if [[ -e "$EXPERIMENT_DIR/manifest.json" ]]; then
@@ -87,7 +74,7 @@ if [[ ! -f infra/config.json && "$DRY_RUN" -ne 1 ]]; then
     echo "infra/config.json is required for a real run" >&2
     exit 4
 fi
-CONFIG_FILE="$(env_or_legacy JEVDUO_CONFIG_FILE TANDEM_CONFIG_FILE infra/config.json)"
+CONFIG_FILE="${JEVDUO_CONFIG_FILE:-infra/config.json}"
 if [[ ! -f "$CONFIG_FILE" ]]; then
     CONFIG_FILE=infra/config.example.json
 fi

@@ -335,4 +335,4 @@ evobox 暂存，单题完成后立即 rsync 到实验目录。`--dry-run` 只生
 
 可选环境变量：`JEVDUO_EXPERIMENT_ROOT` 覆盖实验根目录（默认 `rjob_logs/`），
 `JEVDUO_CONFIG_FILE` 覆盖配置文件（默认 `infra/config.json`）。改名前的 `TANDEM_EXPERIMENT_ROOT` /
-`TANDEM_CONFIG_FILE` 作为过渡仍可用，会在 stderr 提示弃用，后续版本移除。
+`TANDEM_CONFIG_FILE` 自 0.2.0 起不再读取。

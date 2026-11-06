@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+import jevduo
 from jevduo_eval.entry import entry_main, run_from_spec
 from jevduo_eval.env import MockEnv
 from jevduo_eval.manifest import TaskRef
@@ -32,7 +33,7 @@ def _spec(tmp_path: Path, **overrides) -> dict:
         "repo_root": str(Path(__file__).resolve().parents[2]),
         "output_root": str(tmp_path / "run"),
         "benchmark": "mock",
-        "harness": {"name": "tandem", "mode": "planner_led"},
+        "harness": {"name": "jevduo", "mode": "planner_led"},
         "budget": {"max_steps": 5, "max_wall_seconds": 60},
         "record": {"a11y_full": True},
         "requirements": [],
@@ -63,6 +64,7 @@ def test_full_mock_chain_produces_renderable_result_dir(tmp_path, mode):
     assert traj[0]["action"]["kind"] == "gui"
     episode = json.loads((episode_dir / "episode.json").read_text())
     assert episode["stop_reason"] == "done" and episode["score"] == 1.0
+    assert episode["harness"] == f"jevduo {jevduo.__version__}"
     summary = json.loads((run_root / "summary.json").read_text())
     assert summary["scored"] == 1 and summary["average_score"] == 1.0
     if mode == "goal":

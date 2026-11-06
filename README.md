@@ -218,7 +218,8 @@ jevduo check                   # 确认入口可用
 ```
 
 - 自己的脚本里 `import tandem` / `from tandem_eval ...` 需改为 `jevduo` / `jevduo_eval`。
-- 环境变量 `TANDEM_EXPERIMENT_ROOT` / `TANDEM_CONFIG_FILE` 改名为 `JEVDUO_EXPERIMENT_ROOT` / `JEVDUO_CONFIG_FILE`；旧名作为过渡仍可用（stderr 提示弃用），后续版本移除。
+- 环境变量 `TANDEM_EXPERIMENT_ROOT` / `TANDEM_CONFIG_FILE` 改名为 `JEVDUO_EXPERIMENT_ROOT` / `JEVDUO_CONFIG_FILE`；自 0.2.0 起旧名不再读取，仍设着旧名的环境会静默回落到默认值，请改用新名。
+- 自 0.2.0 起新 run 的结果目录里 harness 名为 `jevduo`（`summary.json` / `code_version.json` 的 `harness.name`、`episode.json` 的 `harness`），改名前的历史 run 保持 `tandem` / `tandem 0.1.0`。
 - rjob 任务名前缀由 `tandem-<run-id>` 变为 `jevduo-<run-id>`；开发机 `infra/config.json` 里的 `eval.repo_root` / `eval.deploy_root` 需按新目录同步，旧的部署副本确认无在跑任务后再清理。
 
 ## 会话配置

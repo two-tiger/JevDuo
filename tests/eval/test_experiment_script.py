@@ -2,6 +2,7 @@
 
 import json
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -78,42 +79,22 @@ def test_dry_run_uses_example_when_private_config_is_missing(tmp_path):
     assert (tmp_path / "ci-dry-run" / "manifest.json").is_file()
 
 
-def _env_without_overrides(**extra):
-    """Drop any inherited JEVDUO_*/TANDEM_* so the precedence tests see only what they set."""
+def test_legacy_tandem_env_var_is_ignored(tmp_path):
+    """TANDEM_* was removed in 0.2.0: with only the old name set, the script uses the default root."""
     env = {k: v for k, v in os.environ.items() if not k.startswith(("JEVDUO_", "TANDEM_"))}
-    return {**env, **extra}
-
-
-def test_legacy_tandem_env_vars_still_work_with_deprecation_warning(tmp_path):
-    env = _env_without_overrides(
-        TANDEM_EXPERIMENT_ROOT=str(tmp_path),
-        TANDEM_CONFIG_FILE=str(tmp_path / "missing.json"),
-    )
-    result = subprocess.run(
-        ["bash", str(SCRIPT), "--experiment", "legacy-env", "--tasks", "024", "--dry-run"],
-        capture_output=True,
-        text=True,
-        env=env,
-    )
-    assert result.returncode == 0, result.stderr
-    assert (tmp_path / "legacy-env" / "manifest.json").is_file()
-    assert "TANDEM_EXPERIMENT_ROOT is deprecated; use JEVDUO_EXPERIMENT_ROOT" in result.stderr
-    assert "TANDEM_CONFIG_FILE is deprecated; use JEVDUO_CONFIG_FILE" in result.stderr
-
-
-def test_jevduo_env_var_takes_precedence_over_legacy(tmp_path):
-    new_root, old_root = tmp_path / "new", tmp_path / "old"
-    env = _env_without_overrides(
-        JEVDUO_EXPERIMENT_ROOT=str(new_root),
-        TANDEM_EXPERIMENT_ROOT=str(old_root),
-    )
-    result = subprocess.run(
-        ["bash", str(SCRIPT), "--experiment", "both-env", "--tasks", "024", "--dry-run"],
-        capture_output=True,
-        text=True,
-        env=env,
-    )
-    assert result.returncode == 0, result.stderr
-    assert (new_root / "both-env" / "manifest.json").is_file()
-    assert not old_root.exists()
-    assert "deprecated" not in result.stderr
+    legacy_root = tmp_path / "legacy"
+    env["TANDEM_EXPERIMENT_ROOT"] = str(legacy_root)
+    name = f"legacy-env-{os.getpid()}"
+    default_dir = SCRIPT.parents[1] / "rjob_logs" / name
+    try:
+        result = subprocess.run(
+            ["bash", str(SCRIPT), "--experiment", name, "--tasks", "024", "--dry-run"],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+        assert result.returncode == 0, result.stderr
+        assert (default_dir / "manifest.json").is_file()
+        assert not legacy_root.exists()
+    finally:
+        shutil.rmtree(default_dir, ignore_errors=True)

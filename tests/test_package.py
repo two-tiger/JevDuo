@@ -5,7 +5,7 @@ from jevduo.protocol import PROTOCOL_VERSION, action_from_dict, observation_from
 
 
 def test_version():
-    assert jevduo.__version__ == "0.1.0"
+    assert jevduo.__version__ == "0.2.0"
 
 
 def test_protocol_exports():

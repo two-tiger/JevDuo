@@ -187,7 +187,7 @@ def build_job_spec(*, config: dict, run_id: str, repo_root: Path,
         "secrets": _secrets_section(benchmark, config, slow_api, fast_api),
         "image_stage": _image_stage_section(config),
         "harness": {
-            "name": "tandem",
+            "name": "jevduo",
             "mode": (harness_config["execution_mode"]
                      if harness_config["execution_mode"] in {"stage", "goal"} else "planner_led"),
             "models": {"slow": slow_name, "fast": fast_name},

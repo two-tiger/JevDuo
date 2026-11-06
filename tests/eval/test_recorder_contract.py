@@ -84,7 +84,7 @@ def test_summary_aggregates_and_excludes_unscored(tmp_path):
         {"task_id": "a", "score": 1.0, "status": "scored"},
         {"task_id": "b", "score": 0.0, "status": "scored"},
         {"task_id": "c", "score": None, "status": "failed_unscored"},
-    ], {"run_id": "r1", "benchmark": "mock", "harness": {"name": "tandem"}})
+    ], {"run_id": "r1", "benchmark": "mock", "harness": {"name": "jevduo"}})
     summary = json.loads((tmp_path / "summary.json").read_text())
     assert summary["total"] == 3 and summary["scored"] == 2
     assert summary["failed_unscored"] == 1
@@ -109,7 +109,7 @@ def test_run_spec_masks_credentials_but_keeps_model_identity():
             "fast_model": {"endpoint": "http://10.0.0.1:8891", "endpoint_file": "/x/kev.json"},
             "registry": {"auths": {"reg": {"auth": "base64"}}},
         },
-        "harness": {"name": "tandem", "mode": "planner_led",
+        "harness": {"name": "jevduo", "mode": "planner_led",
                     "models": {"slow": "kimi-k3", "fast": "jev"}},
     }
     masked = _mask_secrets(spec)

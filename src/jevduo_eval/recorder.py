@@ -194,7 +194,7 @@ class EpisodeRecorder:
             (self.dir / "result.txt").write_text(f"{score}\n", encoding="utf-8")
         episode = {
             "task_id": self.task["id"],
-            "harness": f"tandem {__version__}",
+            "harness": f"jevduo {__version__}",
             "stop_reason": stop_reason,
             "steps": self.executed_steps if exception is not None else steps,
             "status": status,

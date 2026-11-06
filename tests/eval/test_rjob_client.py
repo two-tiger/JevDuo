@@ -68,6 +68,7 @@ def test_build_job_spec_uses_config_paths(tmp_path):
     assert spec["secrets"]["registry"]["auths"]
     # 角色与厂商解耦：spec 里记的是"谁在跑"，不是"哪家的模型"
     assert spec["harness"]["models"] == {"slow": "kimi-k3", "fast": "jev"}
+    assert spec["harness"]["name"] == "jevduo"
     assert spec["env"]["shared_env"] == CONFIG["eval"]["shared_env"]
     assert spec["harness_config"]["fast_backend"] == "jev"
     assert spec["harness_config"]["slow_max_tokens"] == 4096

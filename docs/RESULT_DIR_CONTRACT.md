@@ -18,6 +18,8 @@
     └── <task_id>/               # episode 目录（有 domain 时为 <domain>-<task_id>）
 ```
 
+harness 身份字段：`summary.json.harness` 与 `code_version.json.run_spec.harness` 为 `{name, mode, models}`，`name` 取 `jevduo`；`episode.json.harness` 为 `"<name> <harness_version>"`，如 `jevduo 0.2.0`。项目改名前（0.1.0）的历史 run 为 `tandem` / `tandem 0.1.0`，字段集合不变，读取方不应按 `name` 的具体取值分组。
+
 OSWorld 2.1 显式配置替代 judge/用户模拟器时，`code_version.json.resources`
 分别记录 `judge` / `user_simulator` 的 `{provider, model, configuration: "alternative"}`。
 凭据仅存在私有 job spec；结果中的 `run_spec.secrets` 保持全部脱敏。

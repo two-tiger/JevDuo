@@ -44,13 +44,13 @@ def make_run(root: Path, run_id: str, tasks: list[dict]) -> Path:
     write_json(
         run_dir / "code_version.json",
         {
-            "harness_version": "0.1.0",
+            "harness_version": "0.2.0",
             "protocol_version": "0.1",
             "git_describe": "abc1234",
             "images": {"inner": "img:inner"},
             "run_spec": {
                 "budget": {"max_steps": 30, "max_wall_seconds": 1800.0},
-                "harness": {"name": "tandem", "mode": "planner_led",
+                "harness": {"name": "jevduo", "mode": "planner_led",
                             "models": {"slow": "kimi-k3", "fast": "kev"}},
                 "harness_config": {"fast_backend": "kev"},
             },
@@ -77,7 +77,7 @@ def make_run(root: Path, run_id: str, tasks: list[dict]) -> Path:
             episode_dir / "episode.json",
             {
                 "task_id": task_id,
-                "harness": "tandem 0.1.0",
+                "harness": "jevduo 0.2.0",
                 "stop_reason": task.get("stop_reason", "done"),
                 "steps": task["steps"],
                 "status": task["status"],
@@ -190,7 +190,7 @@ def make_contract_episode(
         episode_dir / "episode.json",
         {
             "task_id": "004",
-            "harness": "tandem 0.1.0",
+            "harness": "jevduo 0.2.0",
             "stop_reason": stop,
             "steps": steps,
             "status": "scored" if score is not None else "failed_unscored",
@@ -309,7 +309,7 @@ def make_contract_run(root: Path, run_id: str = "osw21-run-1") -> Path:
     write_json(
         run_dir / "summary.json",
         {"run_id": run_id, "benchmark": "osworld21",
-         "harness": {"name": "tandem", "mode": "stage",
+         "harness": {"name": "jevduo", "mode": "stage",
                      "models": {"slow": "m3.1-flash", "fast": "jev"}},
          "total": 1, "scored": 1, "failed_unscored": 0, "average_score": 0.6556, "tasks": []},
     )

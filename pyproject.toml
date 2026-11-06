@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jevduo"
-version = "0.1.0"
+version = "0.2.0"
 description = "JevDuo：快慢双模 CUA harness（主体）+ jevduo_eval 集群测评薄适配层"
 requires-python = ">=3.10"
 # 截图处理使用仓库白名单内的 Pillow。
